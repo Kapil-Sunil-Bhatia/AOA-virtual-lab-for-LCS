@@ -1,0 +1,647 @@
+
+<html>
+	<head>
+		<title>Longest Common Subsequence Simulation (LCS)</title>
+		<style>
+			BODY, TABLE, INPUT{
+				font:menu;
+			}
+			body{
+				background-color: #FDF7C3;
+			}
+			.code{
+				font-family: 'Courier New', Courier, monospace;
+				font-weight: bold;
+			}
+			A:hover{
+				color:red;
+				text-decoration:none;
+			}
+			A:link{
+				color:blue;
+				text-decoration:none;
+			}
+			A:visited{
+				color:blue;
+				text-decoration:none;
+			}
+		</style>
+		<script language="JavaScript">
+			var resultTable = "resultTable";
+			var space = "";
+			var left = String.fromCharCode(8592);
+			var up = String.fromCharCode(8593);
+			var nw = String.fromCharCode(8598);
+			var body;
+			var gridSize = 7;
+			var variant = 4;
+			var zero = 3;
+			var I = 0;
+			var J = 0;
+			var prevTD;
+			var lcsCode = new Array(17);
+			var lcsLine;
+
+			var printCode = new Array(8);
+			var printLine;
+			
+			var iVar, jVar, xVar, yVar, rVar;
+			
+			function process(){
+				if(document.form.first.value == ""){
+					prompt("Please fill first string sequence");
+				}
+				if(document.form.second.value == ""){
+					prompt("Please fill second string sequence");
+				}
+				
+				X = document.form.first.value;
+				Y = document.form.second.value;
+				
+				if(X.length> gridSize){
+					prompt("Cannot continue length of X more than grid size");
+					return;
+				}
+				if(Y.length> gridSize){
+					prompt("Cannot continue length of Y more than grid size");
+					return;
+				}
+				
+				prompt("");
+				
+				// Init cell values
+				prepare(X, Y);
+				
+				// Run LCS Length Algorithm
+				// lcsLength(X, Y);
+				I = zero;
+				J = zero;
+				LCSLength();
+			}
+			
+			function processPrint(){
+				I = X.length - 1 + zero;
+				J = Y.length - 1 + zero;
+				if(cell(I, J).length == 0){
+					prompt("Please run 'LCS Length' first");
+				}else{
+					printLCS();
+				}
+			}
+			
+			function random(){
+				var gridSizeEl = document.getElementById("gridSize");
+				gridSize = parseInt(gridSizeEl.innerHTML);
+				var variantEl = document.getElementById("variant");
+				variant = parseInt(variantEl.innerHTML);
+				var x = "";
+				var y = "";
+				for(i=0; i<gridSize;i++){
+					x = x+String.fromCharCode(65+Math.floor(Math.random() * (variant)));
+					y = y+String.fromCharCode(65+Math.floor(Math.random() * (variant)));
+				}
+				document.form.first.value = x;
+				document.form.second.value = y;
+				X = document.form.first.value;
+				Y = document.form.second.value;
+			}
+			
+			function prepare(X, Y){
+				clear();
+				highlightLCS(0);
+				highlightLCS(1);
+				prepareFirstRow(Y);
+				highlightLCS(2);
+				prepareSecondRow(Y);
+				highlightLCS(3);
+				prepareThirdRow(Y);
+				prepareRemainingRows(X, Y);
+			}
+			
+			function prepareFirstRow(Y){
+				cellSet(0, 0, space);
+				cellSet(0, 1, "j");
+				cellSet(0, 2, "0");
+				for(i=0; i<Y.length; i++){
+					cellSet(0, i+zero, i+1);
+				}
+			}
+			
+			function prepareSecondRow(Y){
+				cellSet(1, 0, "i");
+				cellSet(1, 1, space);
+				cellSet(1, 2, "y");
+				for(i=0; i<Y.length; i++){
+					cellSet(1, i+zero, Y.charAt(i));
+				}
+			}
+			
+			function prepareThirdRow(Y){
+				cellSet(2, 0, "0");
+				cellSet(2, 1, "x");
+				cellSet(2, 2, "0");
+				setBGColor(td(2, 2));
+				for(i=0; i<Y.length; i++){
+					setBGColor(td(2, i+zero));
+					cellSet(2, i+zero, "0");
+				}
+			}
+			
+			function prepareRemainingRows(X, Y){
+				for(n=0; n<X.length; n++){
+					cellSet(n+zero, 0, n+1);
+					cellSet(n+zero, 1, X.charAt(n));
+					cellSet(n+zero, 2, "0");
+					setBGColor(td(n+zero, 2));
+					for(m=0; m<Y.length; m++){
+						setBGColor(td(n+zero, m+zero));
+						td(n+zero, m+zero).style.border = "1px solid black";
+					}
+				}
+			}
+			
+			function setBGColor(td){
+				td.setAttribute("bgColor", "#FFFFFF");
+			}
+			
+			function incGrid(){
+				var gridSizeEl = document.getElementById("gridSize");
+				gridSize = parseInt(gridSizeEl.innerHTML);
+				gridSizeEl.innerHTML = gridSize+1;
+				random();
+				createGrid();
+			}
+			
+			function decGrid(){
+				var gridSizeEl = document.getElementById("gridSize");
+				gridSize = parseInt(gridSizeEl.innerHTML);
+				if(gridSize == 1){
+					return;
+				}
+				gridSizeEl.innerHTML = gridSize-1;
+				random();
+				createGrid();
+			}
+			
+			function clear(){
+				var gridSizeEl = document.getElementById("gridSize");
+				var gridSize = parseInt(gridSizeEl.innerHTML);
+				for(i=0; i<gridSize+zero; i++){
+					for(j=0; j<gridSize+zero; j++){
+						cellSet(i, j, "");
+						td(i, j).setAttribute("bgColor", "white");
+						td(i, j).style.borderColor = "white";
+					}
+				}
+			}
+			
+			function incVariant(){
+				var variantEl = document.getElementById("variant");
+				variant = parseInt(variantEl.innerHTML);
+				variantEl.innerHTML = variant+1;
+				random();
+			}
+			
+			function decVariant(){
+				var variantEl = document.getElementById("variant");
+				variant = parseInt(variantEl.innerHTML);
+				if(variant == 1){
+					return;
+				}
+				variantEl.innerHTML = variant-1;
+				random();
+			}
+			
+			function createGrid(){
+				var result = document.getElementById("result");
+				var gridSizeEl = document.getElementById("gridSize");
+				var gridSize = parseInt(gridSizeEl.innerHTML);
+				
+				iVar = document.getElementById("iVar"); 
+				jVar = document.getElementById("jVar"); 
+				xVar = document.getElementById("xVar"); 
+				yVar = document.getElementById("yVar"); 
+				rVar = document.getElementById("rVar"); 
+								
+				for(i=0; i<17; i++){
+					lcsCode[i] = document.getElementById("lcs_"+(i+1));
+				}
+				
+				for(i=0; i<8; i++){
+					printCode[i] = document.getElementById("print_"+(i+1));
+				}
+				
+				removeElement(resultTable);
+				var table = document.createElement("TABLE");
+				table.setAttribute("border", "0");
+				table.setAttribute("cellspacing", "1");
+				table.setAttribute("id", resultTable);
+				// table.style.borderCollapse = "collapse";
+				body = document.createElement("TBODY");
+				for(i=0; i<gridSize+zero; i++){
+					var tr = createTR();
+					for(j=0; j<gridSize+zero; j++){
+						if(i>=zero-1 && j>=zero-1){
+							tr.appendChild(createGridTD());
+						}else{
+							tr.appendChild(createTD());
+						}
+					}
+					body.appendChild(tr);
+				}
+				table.appendChild(body);
+				result.appendChild(table);
+			}
+			
+			function printLCS(){
+				highlightPrint(0);
+				if(I == zero - 2 || J == zero - 2){
+					highlightPrint(1);
+					return;
+				}
+				var symbol = cellSymbol(I, J);
+				var TD = td(I, J);
+				highlightPrint(2);
+				if(symbol == nw){
+					td(I, 1).setAttribute("bgColor", "gold");
+					td(1, J).setAttribute("bgColor", "gold");
+					td(I, 1).style.border = "1px solid black";
+					td(1, J).style.border = "1px solid black";
+					printChar(td(1, J).innerHTML);
+					I--;
+					J--;
+					highlightPrint(3);
+					TD.setAttribute("bgColor", "gold");
+					TD.style.border = "2px solid black";
+				}else{
+					TD.setAttribute("bgColor", "#AAAAAA");
+					if(symbol == up){
+						highlightPrint(6);
+						I--;
+					}else{
+						highlightPrint(7);
+						J--;
+					}
+				}
+				setTimeout("printLCS()", 3000);
+			}
+			
+			function printChar(chr){
+				var message = document.getElementById("message");
+				message.innerHTML = chr + message.innerHTML;
+			}
+			
+			function show(evt){
+				if(evt){
+					
+				}else if(event){
+					evt = window.event;
+				}
+				if(evt){
+					var a = (evt.target) ? evt.target : evt.srcElement;
+					display(a);
+				}
+			}
+			
+			function display(a){
+				var i = parseInt(a.getAttribute("i"));
+				var j = parseInt(a.getAttribute("j"));
+				var x = cell(i, 1);
+				var y = cell(1, j);
+				var s = cellSymbol(i, j);
+				var v = cellValue(i, j);
+				var r = "";
+				var ir = i - zero + 1;
+				var jr = j - zero + 1;
+				for(n=0; n<16;n++){
+					lcsCode[n].setAttribute("bgColor", "#FFFFFF");
+				}
+				if(s == nw){
+					r = "Xi='"+x+"' equal to Yi='"+y+"'<BR>";
+					r+= "b["+ir+", "+jr+"]='"+nw+"' and c["+ir+", "+jr+"]="+(v-1)+"+1="+v;
+					r+= "<BR>See line number 10 and 11";
+					highlightLCS(10);
+				}else{
+					r = "Xi='"+x+"' not equal to Yi='"+y+"'<BR>";
+					r += "b["+ir+", "+jr+"]='"+s+"' and c["+ir+", "+jr+"]=";
+					if(s == up){
+						r+= "c["+(ir-1)+", "+jr+"]="+v;
+						r+= "<BR>See line number 13 and 14";
+						highlightLCS(13);
+					}else{
+						r+= "c["+ir+", "+(jr-1)+"]="+v;
+						r+= "<BR>See line number 15 and 16";
+						highlightLCS(15);
+					}
+				}
+				iVar.innerHTML = ir;
+				jVar.innerHTML = jr;
+				xVar.innerHTML = x;
+				yVar.innerHTML = y;
+				rVar.innerHTML = r;
+			}
+			
+			function highlightLCS(n){
+				if(lcsLine){
+					lcsLine.setAttribute("bgColor", "#FFFFFF");
+				}
+				if(n < lcsCode.length && n > 0){
+					var line = lcsCode[n];
+					line.setAttribute("bgColor", "gold");
+					lcsLine = line;
+				}
+			}
+			
+			function highlightPrint(n){
+				if(printLine){
+					printLine.setAttribute("bgColor", "#FFFFFF");
+				}
+				if(n < lcsCode.length && n > 0){
+					var line = printCode[n];
+					line.setAttribute("bgColor", "gold");
+					printLine = line;
+				}
+			}
+			
+			function LCSLength(){
+				highlightLCS(7);
+				var TD = td(I, J);
+				if(prevTD){
+					prevTD.setAttribute("bgColor", "#FFFFFF");
+				}
+				TD.setAttribute("bgColor", "gold");
+				highlightLCS(8);
+				var x = cell(I, 1);
+				var y = cell(1, J);
+				var north  = parseInt(cellValue(I-1, J));
+				var west   = parseInt(cellValue(I, J-1));
+				var nowe   = parseInt(cellValue(I-1, J-1));
+				var symbol = "";
+				highlightLCS(9);
+				if(x == y){
+					symbol = nw;
+					value = nowe*1 + 1;
+					highlightLCS(10);
+				}else{
+					highlightLCS(11);
+					if(north >= west){
+						highlightLCS(12);
+						symbol = up;
+						value = north;
+						highlightLCS(13);
+					}else{
+						highlightLCS(14);
+						symbol = left;
+						value = west;
+						highlightLCS(15);
+					}
+				}
+				if(TD.childNodes[0]){
+					TD.removeChild(TD.childNodes[0]);
+				}
+				var a = document.createElement("A");
+				a.setAttribute("href", "JavaScript:void(0)");
+				a.setAttribute("i", I);
+				a.setAttribute("j", J);
+				a.setAttribute("symbol", symbol);
+				a.setAttribute("value", value);
+				a.onclick = show;
+				a.innerHTML = symbol+" "+value;
+				TD.appendChild(a);
+				display(a);
+				prevTD = TD;
+				
+				J++;
+				if(J == Y.length + zero){
+					J = zero;
+					I++;
+				}
+				if(I < X.length + zero){
+					setTimeout("LCSLength()", 3000);
+				}else{
+					highlightLCS(16);
+					setTimeout("processPrint()", 3000);
+					if(prevTD){
+						prevTD.setAttribute("bgColor", "#FFFFFF");
+					}
+				}
+			}
+			
+			function td(i, j){
+				return body.childNodes[i].childNodes[j];
+			}
+			
+			function cellSet(i, j, t){
+				return td(i, j).innerHTML = t;
+			}
+			
+			function cell(i, j){
+				return td(i, j).innerHTML;
+			}
+			
+			function cellValue(i, j){
+				if(td(i, j).innerHTML == "0"){
+					return td(i, j).innerHTML;
+				}else{
+					var text = td(i, j).childNodes[0].innerHTML.split(' ');
+					return text[text.length - 1];
+				}
+			}
+			
+			function cellSymbol(i, j){
+				if(td(i, j).innerHTML == "0"){
+					return td(i, j).innerHTML;
+				}else{
+					var text = td(i, j).childNodes[0].innerHTML.split(' ');
+					return text[0];
+				}
+			}
+					
+			function createTR(){
+				return document.createElement("TR");
+			}
+			
+			function createTD(){
+				var td = document.createElement("TD");
+				td.setAttribute("align", "right");
+				td.setAttribute("valign", "bottom");
+				td.setAttribute("width", "24");
+				td.setAttribute("height", "24");
+				td.setAttribute("nowrap", "yes");
+				return td;
+			}
+			
+			function createGridTD(){
+				var td = createTD();
+				td.setAttribute("border", "#DDDDDD");
+				return td;
+			}
+			
+			function removeElement(elemID) {
+				var elem = document.getElementById(elemID);
+				if(elem){
+					elem.parentNode.removeChild(elem);
+				}
+			}
+			
+			function prompt(msg){
+				var message = document.getElementById("message");
+				message.innerHTML = msg;
+			}
+			
+		</script>
+	</head>
+	<body onload="createGrid()">
+
+		<br>
+		    <div style="font-size: xx-large; color: #9b2928; font-weight: bolder; display: flex; flex-direction: row; justify-content: center; align-items: center;"> Longest Common Subsequence Simulation (LCS) </div>
+		<br>
+		<form name="form">
+			<table style="width:100%">
+				<tr>
+					<td style="width:50%;">
+						<table style="width:100%;">
+							<tr>
+								<td style="font-size: medium;font-weight:bold;" nowrap>Input X = </td>
+								<td style="width:100%"><input style="width:auto; font-size: medium;border:4px solid black;" id="first" style="width:100%" value="ABCBDAB"></td>
+							</tr> <tr></tr><tr></tr> <tr></tr><tr></tr>
+							<tr>
+								<td style="font-size: medium; font-weight:bold;"nowrap>Input Y = </td>
+								<td style="width:100%"><input style="width:auto;font-size: medium;border:4px solid black;;"id="second" style="width:100%" value="BDCABA"></td>
+							</tr> <tr></tr><tr></tr> <tr></tr><tr></tr>
+							<tr>
+								<td style="font-size: medium; font-weight:bold;"nowrap>Max Size:</td>
+								<td nowrap>
+									<input type="button" style=" background-color: #9b2928;color: white;font-size: medium; border-color: #9b2928; border-radius: 4px;" onclick="decGrid()" value="–">
+									&nbsp;&nbsp;&nbsp;&nbsp;<span id="gridSize" style="font-size: medium; font-weight:bold;">7 </span>
+									&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" style="background-color: #9b2928; color: white;font-size: medium;border-color: #9b2928; border-radius: 4px"onclick="incGrid()" value="+">
+								</td>
+							</tr> <tr></tr><tr></tr> <tr></tr><tr></tr>
+							<tr>
+								<td style="font-size: medium;font-weight:bold;"nowrap>Sequences:</td>
+								<td nowrap>
+									<input type="button" style="background-color: #9b2928; color: white; font-size: medium;border-radius: 4px;border-color: #9b2928" onclick="random()" value="Random ( )">
+								</td>
+							</tr> <tr></tr><tr></tr> <tr></tr><tr></tr>
+							<tr>
+								<td style="font-size: medium;font-weight:bold;"nowrap>Char Variant:</td>
+								<td nowrap>
+									<input type="button" style="background-color: #9b2928; color: white;font-size: medium;border-radius: 4px;border-color: #9b2928"onclick="decVariant()" value="–">
+									&nbsp;&nbsp;&nbsp;&nbsp;<span id="variant" style="font-size: medium; font-weight:bold;">4</span>
+									&nbsp;&nbsp;&nbsp;&nbsp;<input type="button"style="background-color: #9b2928; color: white;border-radius: 4px;font-size: medium;border-color: #9b2928" onclick="incVariant()" value="+">
+								</td>
+							</tr> <tr></tr><tr></tr> <tr></tr><tr></tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+			</table>
+		</form>
+	
+		<br>
+		<table border="0" cellpadding="" cellspacing="0">
+			<tr>
+				
+				<td valign="top">
+					<table>
+						<tr>
+							<td valign="top">
+								<table cellpadding="0" cellspacing="0" style="background-color:#FFFFFF;width:100%;">
+									<tbody>
+									<tr>
+										<td class="code" colspan="2" nowrap style="font-weight:bold;">
+											<span>LCS-LENGTH(X, Y)</span>
+											<input type="button" style="background-color: #9b2928; color: white; border-color: #9b2928; border-radius: 4px; font-size: medium;"onclick="process()" value="Execute LCS Length" />
+										</td>
+										
+									</tr>
+									<tr><td style="width:16">1</td><td class="code" id="lcs_1" nowrap >m = length[X]</td></tr>
+									<tr><td>2</td><td class="code" id="lcs_2" nowrap >n = length[Y]</td></tr>
+									<tr><td>3</td><td class="code" id="lcs_3" nowrap >for i = 1 to m</td></tr>
+									<tr><td>4</td><td class="code" id="lcs_4" nowrap style="padding-left:32;">do c[i, 0] = 0</td></tr>
+									<tr><td>5</td><td class="code" id="lcs_5" nowrap >for j = 1 to n</td></tr>
+									<tr><td>6</td><td class="code" id="lcs_6" nowrap style="padding-left:32;">do c[0, j] = 0</td></tr>
+									<tr><td>7</td><td class="code" id="lcs_7" nowrap >for i = 1 to m</td></tr>
+									<tr><td>8</td><td class="code" id="lcs_8" nowrap style="padding-left:32;">do for j = 1 to n</td></tr>
+									<tr><td>9</td><td class="code" id="lcs_9" nowrap style="padding-left:64;">do if Xi == Yj </td></tr>
+									<tr><td>10</td><td class="code" id="lcs_10" nowrap style="padding-left:96;">then c[i, j] = c[i-1, j-1] + 1</td></tr>
+									<tr><td>11</td><td class="code" id="lcs_11" nowrap style="padding-left:128;">b[i, j] = ARROW_CORNER</td></tr>
+									<tr><td>12</td><td class="code" id="lcs_12" nowrap style="padding-left:96;">else if c[i-1, j] >= c[i, j-1]</td></tr>
+									<tr><td>13</td><td class="code" id="lcs_13" nowrap style="padding-left:128;">then c[i, j]=c[i-1, j]</td></tr>
+									<tr><td>14</td><td class="code" id="lcs_14" nowrap style="padding-left:160;">b[i, j] = ARROW_UP</td></tr>
+									<tr><td>15</td><td class="code" id="lcs_15" nowrap style="padding-left:128;">else c[i, j]=c[i, j-1]</td></tr>
+									<tr><td>16</td><td class="code" id="lcs_16" nowrap style="padding-left:160;">b[i, j] = ARROW_LEFT</td></tr>
+									<tr><td>17</td><td class="code" id="lcs_17" nowrap >return c and b</td></tr>
+									
+									</tbody>
+									
+								</table>
+								
+							</td>
+						</tr>
+					</table>
+				</td>
+				
+				<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+				<td>
+					
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<table cellpadding="0" cellspacing="0" style="background-color:#FFFFFF;width:100%;">
+									<tbody id="printCode">
+									<tr>
+										<td class="code" colspan="2" nowrap style="font-weight:bold;">PRINT-LCS(b, X, i, j)
+										<input type="button" style="background-color: #9b2928; color: white; border-color: #9b2928; border-radius: 4px; font-size: medium;" onclick="processPrint()" value="Execute PRINT LCS"></td>
+									</tr>
+									<tr><td style="width:16">1</td><td class="code" id="print_1" nowrap >if i=0 or j=0</td></tr>
+									<tr><td>2</td><td class="code" id="print_2" nowrap style="padding-left:32;">then return</td></tr>
+									<tr><td>3</td><td class="code" id="print_3" nowrap >if b[i, j] == ARROW_CORNER</td></tr>
+									<tr><td>4</td><td class="code" id="print_4" nowrap style="padding-left:32;">then PRINT-LCS(b, X, i-1, j-1)</td></tr>
+									<tr><td>5</td><td class="code" id="print_5" nowrap style="padding-left:64;">print Xi</td></tr>
+									<tr><td>6</td><td class="code" id="print_6" nowrap >elseif b[i, j] == ARROW_UP</td></tr>
+									<tr><td>7</td><td class="code" id="print_7" nowrap style="padding-left:32;">then PRINT-LCS(b, X, i-1, j)</td></tr>
+									<tr><td>8</td><td class="code" id="print_8" nowrap style="padding-left:32;">else PRINT-LCS(b, X, i, j-1)</td></tr>
+									
+								</tbody>
+					</table>
+								
+<td>
+					           <table border="1" cellspacing="0" cellpadding="0">
+						
+						     <tr>
+							
+							<td align="right">
+								<table>
+									<tr style="font-size: medium;"><td>i</td><td>:</td><td id="iVar">0</td></tr>
+									<tr style="font-size: medium;"><td>j</td><td>:</td><td id="jVar">0</td></tr>
+								</table>
+							</td>
+							<td align="left">
+								<table>
+									<tr  style="font-size: medium;"><td>X<sub>i</sub></td><td>:</td><td id="xVar">0</td></tr>
+									<tr  style="font-size: medium;"><td>Y<sub>j</sub></td><td>:</td><td id="yVar">0</td></tr>
+								</table>
+							</td>
+							<td align="left" valign="top" bgColor="#9b2928" >
+								<table style="width:100%;height:100%;">
+									<tr>
+										<td valign="top" style="font-size: medium; color: white;">Step: </td>
+										<td id="rVar" style="color: white;width:100%;height:100%;font-size: medium"></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3">
+								<div ID="result"></div>
+							</td>
+						</tr>
+					</table>
+				</td>
+				    </td>
+			              </tr>
+		           </table>
+		<br>
+			<div id="message" style="background-color: white; color:#9b2928;border:5px solid black; padding:4px; height:35px; font-weight:bold; font-size: xx-large;">&nbsp;</div>
+
+</body>
+</html>

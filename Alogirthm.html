@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Longest Common Subsequence</title>
+  <!-- Link Styles -->
+  <link rel="stylesheet" href="style.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+
+  <style>
+td{
+    border: 0px solid #FDF7C3;
+     border-collapse: collapse;
+}
+footer
+{
+  background:#9B2928;
+  height: auto;
+  width: 100vw;
+  font-family: 'Poppins', sans-serif;
+  padding-top: 20px;
+  color: white;
+  padding-bottom: 13px;
+}
+
+.footer-content{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.footer-content h6{
+
+  
+  line-height: 1rem;
+}
+.footer-content p{
+
+  margin: 10px auto;
+  line-height: 10px;
+ 
+}
+  </style>
+  <div class="sidebar">
+    <div class="logo_details">
+      <i class="bx bxl-audible icon"></i>
+      <div class="logo_name">LCS</div>
+      <i class="bx bx-menu" id="btn"></i>
+    </div>
+    <ul class="nav-list">
+        <li>
+          <a href="index.html">
+            <i class='bx bx-home-alt-2'></i>
+            <span class="link_name">Home</span>
+          </a>
+          <span class="tooltip">Home</span>
+        </li>
+        <li>
+          <a href="Theory.html">
+            <i class='bx bx-book-add' ></i>
+            <span class="link_name">Theory</span>
+          </a>
+          <span class="tooltip">Theory</span>
+        </li>
+       
+        <li>
+          <a href="Alogirthm.html">
+            <i class='bx bxs-book-content'></i>
+            <span class="link_name">Algorithm</span>
+          </a>
+          <span class="tooltip">Algorithm</span>
+        </li>
+        <li>
+          <a href="Flowchart.html">
+            <i class='bx bx-bar-chart-alt-2' ></i>
+            <span class="link_name">Flowchart</span>
+          </a>
+          <span class="tooltip">Flowchart</span>
+        </li>
+        <li>
+          <a href="Numericals.html">
+            <i class='bx bx-math'></i>
+            <span class="link_name">Numericals</span>
+          </a>
+          <span class="tooltip">Numericals</span>
+        </li>
+        <li>
+          <a href="lcs.html" target="_blank">
+            <i class='bx bx-skip-next-circle'></i>
+            <span class="link_name">Simulator</span>
+          </a>
+          <span class="tooltip">Simulator</span>
+        </li>
+        <li>
+          <a href="Complexity.html">
+            <i class='bx bxs-server'></i>
+            <span class="link_name">Complexity </span>
+          </a>
+          <span class="tooltip">Complexity</span>
+        </li>
+        <li>
+          <a href="References.html">
+            <i class='bx bx-edit-alt'></i>
+            <span class="link_name">References</span>
+          </a>
+          <span class="tooltip">References</span>
+        </li>
+        <li>
+          <a href="feedback.html">
+            <i class='bx bx-message-dots'></i>
+            <span class="link_name">Feedback</span>
+          </a>
+          <span class="tooltip">Feedback</span>
+        </li>
+      
+      </ul>
+  </div>
+  <section class="home-section">
+
+   <div class="text3"><u>ALGORITHM</u> :  </div>
+   <br>
+   
+   <div class="text6">
+    <table><td >
+    <div class="txt">LCS-LENGTH(X, Y)</div>
+   <div style="background-color: white; font-family: 'Courier New', Courier, monospace; width: fit-content; padding-left: 10px; padding-right: 10px; border: 3px black solid">
+m = length[ X ]
+<br>
+n = length[ Y ]
+<br>
+for i = 1 to m
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	do c[ i , 0 ] = 0
+<br>
+for j = 1 to n
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	do c[ 0 , j ] = 0
+<br>
+for i = 1 to m
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; do for j = 1 to n
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; do if X<sub>i</sub> == Y<sub>j</sub>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; then c[ i , j ] = c[ i – 1 , j – 1 ] + 1
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b[i , j] = ARROW_CORNER
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if c[ i – 1 , j ] > = c[ i , j – 1 ]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; then c[ i , j ] = c[ i – 1 , j ]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	b[ i , j ] = ARROW_UP
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	else c[ i , j ] = c[ i , j – 1 ]
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	b[ i , j ] = ARROW_LEFT
+<br>
+return c and b
+</div>
+</td>
+<td></td><td></td><td></td><td></td><td></td><td></td>
+<td>
+<div class="txt">PRINT-LCS ( b , X , i , j ) </div>
+  <div style="background-color: white; font-family: 'Courier New', Courier, monospace; width: fit-content; padding-left: 10px; padding-right: 10px; border: 3px black solid">
+	if i = 0 or j = 0
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	then return
+<br>
+	if b[ i , j ] == ARROW_CORNER
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	then PRINT-LCS ( b , X , i – 1 , j – 1 )
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	print X<sub>i</sub>
+<br>
+	else if b [ i , j ] == ARROW_UP
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	then PRINT-LCS ( b , X , i – 1 , j )
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	else PRINT-LCS( b , X , i , j – 1 )
+<br>
+</div>
+</td>
+</table>
+<br><br>
+   
+
+  </section>
+  <footer>
+    <div class="footer-content">
+  <h6>Department Of Computer Engineering</h6>
+  <h6><i class="bi bi-c-circle"></i>2022-23</h6>
+ <br>
+  <h6>Guided by : Prof. Mrunali Desai</h6>
+
+  <h6>Developed by : Kapil Bhatia, Dakshita Kolte, Palak Desai, Niramay Kolalle</h6>
+</div>
+</footer>
+  <!-- Scripts -->
+  <script src="script.js"></script>
+</body>
+</html>

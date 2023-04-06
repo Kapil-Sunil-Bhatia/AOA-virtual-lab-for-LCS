@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Longest Common Subsequence</title>
+  <!-- Link Styles -->
+  <link rel="stylesheet" href="style.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <style>
+  footer
+{
+  background:#9B2928;
+  height: auto;
+  width: 100vw;
+  font-family: 'Poppins', sans-serif;
+  padding-top: 20px;
+  color: white;
+  padding-bottom: 13px;
+}
+
+.footer-content{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.footer-content h6{
+
+  
+  line-height: 1rem;
+}
+.footer-content p{
+
+  margin: 10px auto;
+  line-height: 10px;
+ 
+}
+</style>
+  <div class="sidebar">
+    <div class="logo_details">
+      <i class="bx bxl-audible icon"></i>
+      <div class="logo_name">LCS</div>
+      <i class="bx bx-menu" id="btn"></i>
+    </div>
+    <ul class="nav-list">
+        <li>
+          <a href="index.html">
+            <i class='bx bx-home-alt-2'></i>
+            <span class="link_name">Home</span>
+          </a>
+          <span class="tooltip">Home</span>
+        </li>
+        <li>
+          <a href="Theory.html">
+            <i class='bx bx-book-add' ></i>
+            <span class="link_name">Theory</span>
+          </a>
+          <span class="tooltip">Theory</span>
+        </li>
+       
+        <li>
+          <a href="Alogirthm.html">
+            <i class='bx bxs-book-content'></i>
+            <span class="link_name">Algorithm</span>
+          </a>
+          <span class="tooltip">Algorithm</span>
+        </li>
+        <li>
+          <a href="Flowchart.html">
+            <i class='bx bx-bar-chart-alt-2' ></i>
+            <span class="link_name">Flowchart</span>
+          </a>
+          <span class="tooltip">Flowchart</span>
+        </li>
+        <li>
+          <a href="Numericals.html">
+            <i class='bx bx-math'></i>
+            <span class="link_name">Numericals</span>
+          </a>
+          <span class="tooltip">Numericals</span>
+        </li>
+        <li>
+          <a href="lcs.html" target="_blank">
+            <i class='bx bx-skip-next-circle'></i>
+            <span class="link_name">Simulator</span>
+          </a>
+          <span class="tooltip">Simulator</span>
+        </li>
+        <li>
+          <a href="Complexity.html">
+            <i class='bx bxs-server'></i>
+            <span class="link_name">Complexity </span>
+          </a>
+          <span class="tooltip">Complexity</span>
+        </li>
+        <li>
+          <a href="References.html">
+            <i class='bx bx-edit-alt'></i>
+            <span class="link_name">References</span>
+          </a>
+          <span class="tooltip">References</span>
+        </li>
+        <li>
+          <a href="feedback.html">
+            <i class='bx bx-message-dots'></i>
+             <span class="link_name">Feedback</span>
+          </a>
+          <span class="tooltip">Feedback</span>
+        </li>
+      
+      </ul>
+  </div>
+  <section class="home-section">
+
+   <div class="text3"><u>THEORY</u> :  </div>
+   <br>
+   <div class="text4" style="text-justify: auto;"><i class='bx bxs-caret-right-circle'></i> What is LCS?</div>
+   <br>
+   <div class="text5">
+    <i class='bx bxs-chevron-right'></i>A Longest Common Subsequence (LCS) is a sequence that appears in the same order in two or more given sequences, but not necessarily in a contiguous manner.
+    <br>
+    <br>
+    <i class='bx bxs-chevron-right'></i>The LCS problem is to find the longest subsequence that is common to all given sequences.
+    <br>
+    <br>
+    <i class='bx bxs-chevron-right'></i>There are several algorithms to solve the LCS problem, but the most common ones are the dynamic programming approach and the recursive approach.
+   </div>
+   <br>
+   <br>
+   <div class="text4"><i class='bx bxs-caret-right-circle'></i> Dynamic Programming Approach</div>
+   <br>
+   <div class="text5">
+    <i class='bx bxs-chevron-right'></i>Dynamic programming is a technique used to solve complex problems by breaking them down into smaller, more manageable subproblems. 
+    <br>
+    <br>
+    <i class='bx bxs-chevron-right'></i>The LCS problem can be solved using dynamic programming by building a table that represents the LCS lengths of the subproblems. 
+    <br>
+    <br>
+    <i class='bx bxs-chevron-right'></i>The entries in the table are calculated by comparing the characters of the sequences and taking the maximum of the LCS lengths of the subproblems.
+   </div>
+   <br>
+   <br>
+   <div class="text4"><i class='bx bxs-caret-right-circle'></i> Recursive Approach</div>
+   <br>
+   <div class="text5">
+    <i class='bx bxs-chevron-right'></i> The recursive approach involves dividing the problem into smaller subproblems and solving them recursively.
+    <br>
+    <br>
+    <i class='bx bxs-chevron-right'></i> The base case is when one of the sequences is empty, in which case the LCS is an empty sequence. Otherwise, if the last characters of the sequences match, the LCS is the LCS of the sequences without the last characters plus the last character.
+    <br>
+    <br>
+    <i class='bx bxs-chevron-right'></i> If the last characters of the sequences do not match, the LCS is the maximum of the LCS of the first sequence without the last character and the second sequence, and the LCS of the second sequence without the last character and the first sequence.
+   <br>
+  </div>
+<br>
+   <div class="text4"><i class='bx bxs-caret-right-circle'></i>Applications</div>
+   <br>
+   <div class="text5">
+    <i class='bx bxs-chevron-right'></i> LCS (Longest Common Subsequence) is a fundamental algorithmic problem that has a wide range of applications in various fields such as computer science, bioinformatics, data compression, and natural language processing. Here are some of the specific applications of LCS:
+    <br>
+    <br>
+   1. DNA sequencing: LCS is used to compare two or more DNA sequences to identify common genetic features. This is important in identifying genetic mutations and understanding the relationship between different organisms.
+    <br>
+    <br>
+ 2. Text comparison: LCS can be used to compare two documents to identify similarities and differences. This is useful in plagiarism detection and document version control.
+   <br>
+   <br>
+  3. Data compression: LCS can be used in data compression algorithms to identify repeated patterns in the data and represent them in a more compact form.
+   <br>
+   <br>
+  4. Image and video processing: LCS can be used in image and video processing applications to identify and track objects that are common across multiple frames.
+   <br>
+   <br>
+   5. Computer networking: LCS can be used in network packet inspection to identify and filter out common patterns of malicious traffic.
+   <br><br>
+  6. Speech recognition: LCS can be used in speech recognition applications to identify the common phonetic features of different words and improve the accuracy of the recognition system.
+  </div>
+
+<br>
+   
+
+  </section>
+  <!-- Scripts -->
+  <script src="script.js"></script>
+    <footer>
+    <div class="footer-content">
+  <h6>Department Of Computer Engineering</h6>
+  <h6><i class="bi bi-c-circle"></i>2022-23</h6>
+ <br>
+  <h6>Guided by : Prof. Mrunali Desai</h6>
+
+  <h6>Developed by : Kapil Bhatia, Dakshita Kolte, Palak Desai, Niramay Kolalle</h6>
+</div>
+</footer>
+</body>
+</html>

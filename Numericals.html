@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Longest Common Subsequence</title>
+  <!-- Link Styles -->
+  <link rel="stylesheet" href="style.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <style>
+  footer
+{
+  background:#9B2928;
+  height: auto;
+  width: 100vw;
+  font-family: 'Poppins', sans-serif;
+  padding-top: 20px;
+  color: white;
+  padding-bottom: 13px;
+}
+
+.footer-content{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.footer-content h6{
+
+  
+  line-height: 1rem;
+}
+.footer-content p{
+
+  margin: 10px auto;
+  line-height: 10px;
+ 
+}
+</style>
+  <div class="sidebar">
+    <div class="logo_details">
+      <i class="bx bxl-audible icon"></i>
+      <div class="logo_name">LCS</div>
+      <i class="bx bx-menu" id="btn"></i>
+    </div>
+    <ul class="nav-list">
+        <li>
+          <a href="index.html">
+            <i class='bx bx-home-alt-2'></i>
+            <span class="link_name">Home</span>
+          </a>
+          <span class="tooltip">Home</span>
+        </li>
+        <li>
+          <a href="Theory.html">
+            <i class='bx bx-book-add' ></i>
+            <span class="link_name">Theory</span>
+          </a>
+          <span class="tooltip">Theory</span>
+        </li>
+       
+        <li>
+          <a href="Alogirthm.html">
+            <i class='bx bxs-book-content'></i>
+            <span class="link_name">Algorithm</span>
+          </a>
+          <span class="tooltip">Algorithm</span>
+        </li>
+        <li>
+          <a href="Flowchart.html">
+            <i class='bx bx-bar-chart-alt-2' ></i>
+            <span class="link_name">Flowchart</span>
+          </a>
+          <span class="tooltip">Flowchart</span>
+        </li>
+        <li>
+          <a href="Numericals.html">
+            <i class='bx bx-math'></i>
+            <span class="link_name">Numericals</span>
+          </a>
+          <span class="tooltip">Numericals</span>
+        </li>
+        <li>
+          <a href="lcs.html" target="_blank">
+            <i class='bx bx-skip-next-circle'></i>
+            <span class="link_name">Simulator</span>
+          </a>
+          <span class="tooltip">Simulator</span>
+        </li>
+        <li>
+          <a href="Complexity.html">
+            <i class='bx bxs-server'></i>
+            <span class="link_name">Complexity </span>
+          </a>
+          <span class="tooltip">Complexity</span>
+        </li>
+        <li>
+          <a href="References.html">
+            <i class='bx bx-edit-alt'></i>
+            <span class="link_name">References</span>
+          </a>
+          <span class="tooltip">References</span>
+        </li>
+        <li>
+          <a href="feedback.html">
+            <i class='bx bx-message-dots'></i>
+            <span class="link_name">Feedback</span>
+          </a>
+          <span class="tooltip">Feedback</span>
+        </li>
+      
+      </ul>
+  </div>
+  <section class="home-section">
+
+   <div class="text3"><u>NUMERICALS</u> :  </div>
+   <br>
+   <div class="text4">Example : </div>
+   <br>
+   <div class="text5">
+    Given two sequences X [1...m] and Y [1.....n]. Find the longest common subsequences to both.
+   </div>
+    <br>
+    <br>
+    <div class="img1">
+        <img src="numq.jpg" alt="Question">
+    </div>
+    <br>
+    <div class="text5">
+        Here X = { A , B, C, B, D, A, B } and Y = { B, D, C, A, B, A }
+        <br>
+        <br>
+        m = length [ X ] and n = length [ Y ]
+        <br>
+        <br>
+        m = 7 and n = 6
+        <br>
+        <br>
+        Here x1 = x [ 1 ] = A and y1 = y [ 1 ] = B
+        <br>
+        <br>
+        x2 = B &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; y2 = D	
+        <br>
+        x3 = C &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; y3 = C
+        <br>
+        x4 = B &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;y4 = A
+        <br>
+        x5 = D &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; y5 = B
+        <br>
+        x6 = A &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; y6 = A
+        <br>
+        x7 = B
+        <br>
+        <br>
+        Now fill the values of c [ i, j ] in m x n table.
+        <br>
+        <br>
+        Initially, for i = 1 to 7 
+        <br>
+        c [ i , 0 ] = 0
+        <br>
+          For j = 0 to 6 
+          <br>
+          c [ 0 , j ] = 0
+          <br>
+          <br>
+            That is:
+        <br>
+        <br>
+        <div class="img1">
+            <img src="input.png" alt="Input Question" style="height:500px;width:450px">
+    </div>
+    <br>
+    
+    
+    <div>
+        <i class='bx bxs-chevron-right'></i>Now for i = 1 and j = 1
+        <br>
+    <br>
+	x<sub>1</sub> and y<sub>1</sub> we get x<sub>1</sub> ≠ y<sub>1</sub> i.e. A ≠ B
+    <br>
+    And c [ i – 1 , j ] = c [ 0 , 1 ] = 0
+    <br>
+	c [ i , j – 1 ] = c [ 1 , 0 ] = 0
+    <br>
+   
+   That is,
+   <br>
+   c [ i – 1, j ] = c [ i, j – 1 ] so c [ 1 , 1 ] = 0 and b [ 1 , 1 ] = ' ↑ '
+   </div>
+   
+   <br>
+   
+   <div>
+    <i class='bx bxs-chevron-right'></i>Now for i = 1 and j = 2
+    <br>
+ <br>
+	x<sub>1</sub> and y<sub>2</sub> we get x<sub>1</sub> ≠ y<sub>2</sub> i.e. A ≠ D
+    <br>
+    c [ i – 1 , j ] = c [ 0 , 2 ] = 0
+    <br>
+	c [ i, j – 1 ] = c [ 1 , 1 ] = 0
+    <br>
+   
+   That is,
+   <br>
+   c [ i – 1 , j ]= c [ i , j – 1 ] so c [ 1 , 2 ] = 0 and b [ 1 , 2 ] = '  ↑  '
+   </div>
+
+   <br>
+
+   <div>
+    <i class='bx bxs-chevron-right'></i>Now for i = 1 and j = 3
+    <br>
+ <br>
+	x<sub>1</sub> and y<sub>3</sub> we get x<sub>1</sub> ≠ y<sub>3</sub> i.e. A ≠ C
+    <br>
+    c [ i – 1 , j ] = c [ 0 , 3 ] = 0
+    <br>
+	c [ i , j – 1 ] = c [ 1 , 2 ] = 0
+    <br> 
+   
+   That is,
+   <br>
+   so c [ 1 , 3 ] = 0 and b [ 1 , 3 ] = ' ↑ '
+   </div>
+
+   <br>
+
+   <div>
+    <i class='bx bxs-chevron-right'></i> Now for i = 1 and j = 4
+    <br>
+    <br>
+	x<sub>1</sub> and y<sub>4</sub> we get. x<sub>1</sub> = y<sub>4</sub> i.e A = A 
+    <br>
+    c [ 1, 4 ] = c [ 1 – 1 , 4 – 1 ] + 1 = c [ 0 , 3 ] + 1 = = 0 + 1 = 1
+    <br>
+	c [ 1 , 4 ] = 1
+    <br>
+    b [ 1 , 4 ] = '  ↖  '
+   </div>
+
+   <br>
+
+   <div>
+    <i class='bx bxs-chevron-right'></i> Now for i = 1 and j = 5
+    <br>
+  <br>
+	x<sub>1</sub> and y<sub>5</sub>  we get x<sub>1</sub> ≠ y<sub>5</sub>
+    <br>
+    c [ i – 1 , j ] = c [ 0 , 5 ] = 0
+    <br>
+	c [ i , j – 1 ] = c [ 1 , 4 ] = 1
+    <br>
+   
+   Thus,
+   <br>
+   c [ i , j – 1 ] > c [ i – 1 , j ] i.e. c [ 1 , 5 ] = c [ i , j – 1 ] = 1. So b [ 1 , 5 ] = '←'
+   </div>
+
+   <br>
+
+   <div>
+    <i class='bx bxs-chevron-right'></i>Now for i = 1 and j = 6
+    <br>
+   <br>
+	x<sub>1</sub> and y<sub>6</sub>   we get x<sub>1</sub> = y<sub>6</sub>
+    <br>
+    c [ 1 , 6 ] = c [ 1 – 1, 6 – 1 ] + 1 = c [ 0 , 5 ] + 1 = 0 + 1 = 1
+    <br>
+    c [ 1 , 6 ] = 1
+    <br>
+    b [ 1 , 6 ] = '  ↖  '
+   </div>
+   
+   <br>
+   
+   <div class="img1">
+    <img src="6.png" alt="Img" style="height:500px;width:450px">
+   </div>
+  
+   <br>
+
+   <div>
+    <i class='bx bxs-chevron-right'></i>Now for i = 2 and j = 1
+    <br>
+   <br>
+   We get x<sub>2</sub> and y<sub>1</sub> B = B  i.e.  x<sub>2</sub> = y<sub>1</sub>
+    <br>
+    c [ 2 , 1 ] = c [ 2 – 1, 1 – 1 ] + 1 = c [ 1 , 0 ] + 1 = 0 + 1 = 1   
+    <br>
+    c [ 2 , 1 ] = 1 and b [ 2 , 1 ] = ' ↖ '
+    <br>
+    Similarly, we fill the all values of c [ i , j ] and we get ,
+   </div>
+
+   <br>
+
+   <div class="img1">
+    <img src="5.png" alt="Img" style="height:500px;width:450px">
+   </div>
+
+   <br>
+   <div class="img1">
+    <img src="ans.jpg" alt="Img" style="height:220px;width:1000px">
+
+
+    <br><br><br>
+   </div>
+
+
+
+
+
+
+
+
+   
+    </div>
+    
+
+   
+
+  </section>
+  <!-- Scripts -->
+  <script src="script.js"></script>
+</body>
+</html>
